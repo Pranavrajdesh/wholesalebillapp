@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="theme-color" content="#1a1a1a">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <title>@yield('title', 'wholesaleBillApp')</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -79,6 +82,8 @@
                     <summary><span class="mi">&#9881;</span>Manage App</summary>
                     <a class="modal-link sub" href="{{ route('dashboard') }}"><span class="mi">&#9632;</span>Dashboard</a>
                     <a class="modal-link sub" href="{{ route('settings.edit') }}"><span class="mi">&#9998;</span>Settings</a>
+                    <button type="button" id="installbtn" class="modal-link sub" hidden style="width:100%; text-align:left; background:none; border:none; cursor:pointer; font:inherit;"><span class="mi">&#8681;</span>Install App</button>
+                    <button type="button" id="installbtn" class="modal-link sub" hidden style="width:100%; text-align:left; background:none; border:none; cursor:pointer; font:inherit;"><span class="mi">&#8681;</span>Install App</button>
                 </details>
             </div>
         </div>
@@ -99,5 +104,47 @@
             if (e.target.closest('#menuclose') || e.target === modal) modal.hidden = true;
         });
     </script>
-</body>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
+        }
+        let deferredInstall = null;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredInstall = e;
+            const b = document.getElementById('installbtn');
+            if (b) b.hidden = false;
+        });
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#installbtn') || !deferredInstall) return;
+            deferredInstall.prompt();
+            deferredInstall.userChoice.then(() => {
+                deferredInstall = null;
+                document.getElementById('installbtn').hidden = true;
+            });
+        });
+        window.addEventListener('appinstalled', () => {
+            const b = document.getElementById('installbtn');
+            if (b) b.hidden = true;
+        });
+        let deferredInstall = null;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredInstall = e;
+            const b = document.getElementById('installbtn');
+            if (b) b.hidden = false;
+        });
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#installbtn') || !deferredInstall) return;
+            deferredInstall.prompt();
+            deferredInstall.userChoice.then(() => {
+                deferredInstall = null;
+                document.getElementById('installbtn').hidden = true;
+            });
+        });
+        window.addEventListener('appinstalled', () => {
+            const b = document.getElementById('installbtn');
+            if (b) b.hidden = true;
+        });
+    </script></body>
 </html>

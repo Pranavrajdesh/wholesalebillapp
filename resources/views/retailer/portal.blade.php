@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#1a1a1a">
+    <link rel="manifest" href="/manifest-retailer.json">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <title>Retailer Portal</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
@@ -73,6 +76,24 @@
         </div>
 
         {{-- ---- catalogue tab ---- --}}
+        <div id="installbar" hidden style="background:#fff; border-bottom:1px solid #ccc;">
+            <div style="max-width:650px; margin:0 auto; padding:10px 16px; display:flex; justify-content:space-between; align-items:center; gap:10px;">
+                <span style="font-size:12.5px; font-weight:600; color:#1a1a1a;">Add this shop to your home screen</span>
+                <span style="display:flex; gap:6px;">
+                    <button type="button" id="pinstall" style="padding:8px 14px; background:#1a1a1a; color:#fff; border:none; border-radius:4px; font-size:12px; cursor:pointer;">INSTALL</button>
+                    <button type="button" id="pinstall-x" style="padding:8px 10px; background:none; border:1px solid #999; border-radius:4px; font-size:12px; cursor:pointer;">&times;</button>
+                </span>
+            </div>
+        </div>
+        <div id="installbar" hidden style="background:#fff; border-bottom:1px solid #ccc;">
+            <div style="max-width:650px; margin:0 auto; padding:10px 16px; display:flex; justify-content:space-between; align-items:center; gap:10px;">
+                <span style="font-size:12.5px; font-weight:600; color:#1a1a1a;">Add this shop to your home screen</span>
+                <span style="display:flex; gap:6px;">
+                    <button type="button" id="pinstall" style="padding:8px 14px; background:#1a1a1a; color:#fff; border:none; border-radius:4px; font-size:12px; cursor:pointer;">INSTALL</button>
+                    <button type="button" id="pinstall-x" style="padding:8px 10px; background:none; border:1px solid #999; border-radius:4px; font-size:12px; cursor:pointer;">&times;</button>
+                </span>
+            </div>
+        </div>
         <div id="tab-cat" class="pwrap">
             <div class="searchwrap">
                 <input type="text" id="search" placeholder="Search products" autocomplete="off">
@@ -578,5 +599,41 @@
         }
     });
     </script>
-</body>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
+        }
+        let deferredInstall = null;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredInstall = e;
+            document.getElementById('installbar').hidden = false;
+        });
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('#pinstall-x')) { document.getElementById('installbar').hidden = true; return; }
+            if (!e.target.closest('#pinstall') || !deferredInstall) return;
+            deferredInstall.prompt();
+            deferredInstall.userChoice.then(() => {
+                deferredInstall = null;
+                document.getElementById('installbar').hidden = true;
+            });
+        });
+        window.addEventListener('appinstalled', () => { document.getElementById('installbar').hidden = true; });
+        let deferredInstall = null;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredInstall = e;
+            document.getElementById('installbar').hidden = false;
+        });
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('#pinstall-x')) { document.getElementById('installbar').hidden = true; return; }
+            if (!e.target.closest('#pinstall') || !deferredInstall) return;
+            deferredInstall.prompt();
+            deferredInstall.userChoice.then(() => {
+                deferredInstall = null;
+                document.getElementById('installbar').hidden = true;
+            });
+        });
+        window.addEventListener('appinstalled', () => { document.getElementById('installbar').hidden = true; });
+    </script></body>
 </html>

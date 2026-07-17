@@ -18,6 +18,41 @@ use App\Http\Controllers\RateSlabController;
 use Illuminate\Support\Facades\Route;
 
 // --- Auth ---
+Route::get('/offline', fn () => view('offline'));
+
+Route::get('/manifest.json', function () {
+    return response()->json([
+        'name' => 'wholesaleBillApp',
+        'short_name' => 'WholesaleBill',
+        'start_url' => '/',
+        'display' => 'standalone',
+        'background_color' => '#ececec',
+        'theme_color' => '#1a1a1a',
+        'icons' => [
+            ['src' => '/icons/icon-192.png', 'sizes' => '192x192', 'type' => 'image/png'],
+            ['src' => '/icons/icon-512.png', 'sizes' => '512x512', 'type' => 'image/png'],
+            ['src' => '/icons/icon-maskable-512.png', 'sizes' => '512x512', 'type' => 'image/png', 'purpose' => 'maskable'],
+        ],
+    ]);
+});
+
+Route::get('/manifest-retailer.json', function () {
+    $firm = \App\Models\Setting::getAll()['firm_name'] ?? 'Shop';
+    return response()->json([
+        'name' => $firm,
+        'short_name' => mb_substr($firm, 0, 12),
+        'start_url' => '/retailer',
+        'display' => 'standalone',
+        'background_color' => '#ececec',
+        'theme_color' => '#1a1a1a',
+        'icons' => [
+            ['src' => '/icons/icon-192.png', 'sizes' => '192x192', 'type' => 'image/png'],
+            ['src' => '/icons/icon-512.png', 'sizes' => '512x512', 'type' => 'image/png'],
+            ['src' => '/icons/icon-maskable-512.png', 'sizes' => '512x512', 'type' => 'image/png', 'purpose' => 'maskable'],
+        ],
+    ]);
+});
+
 Route::get('/login', [LoginController::class, 'show'])->name('login');
 Route::post('/login/otp', [LoginController::class, 'sendOtp'])->name('login.otp');
 Route::get('/login/otp', fn () => redirect()->route('login'));
