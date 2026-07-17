@@ -6,7 +6,7 @@
     .rtopbar .tbtn.outline { background: #fff; color: #1a1a1a; border: 1px solid #1a1a1a; }
     .rmodal { position: fixed; inset: 0; background: rgba(0,0,0,0.55); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 50; }
     .rmodal[hidden] { display: none !important; }
-    .rmodal .rbox { background: #fff; border-radius: 6px; width: 100%; max-width: 380px; padding: 16px; max-height: 90vh; overflow: auto; }
+    .rmodal .rbox { background: #fff; border-radius: 6px; width: 100%; max-width: 380px; padding: 16px; max-height: 90vh; overflow: auto; overscroll-behavior: contain; }
     .rmodal .rtitle { font-weight: 700; font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
     .rmodal .rx { background: none; border: none; font-size: 24px; cursor: pointer; line-height: 1; }
     .rmodal .rlinks { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }

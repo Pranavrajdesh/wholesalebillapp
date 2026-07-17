@@ -135,8 +135,8 @@
                         + '<input class="step-input" type="number" min="0" step="1" value="' + qty + '">'
                         + '<button type="button" class="step-btn" data-act="inc">+</button>'
                         + '</div>'
-                        + '<button type="button" class="btn btn-outline moreopts" style="margin-top:10px;">MORE OPTIONS</button>'
-                    : '<button type="button" class="btn btn-outline moreopts" style="margin-top:10px;">ADD WITH MANUAL RATE</button>')
+                        + '<button type="button" class="btn moreopts" style="margin-top:10px;">MORE OPTIONS</button>'
+                    : '<button type="button" class="btn moreopts" style="margin-top:10px;">ADD WITH MANUAL RATE</button>')
                 + '</div>';
         }
 

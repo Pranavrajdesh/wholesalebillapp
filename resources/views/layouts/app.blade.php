@@ -99,8 +99,8 @@
         document.addEventListener('click', function (e) {
             const modal = document.getElementById('menumodal');
             if (!modal) return;
-            if (e.target.closest('#morebtn')) modal.hidden = false;
-            if (e.target.closest('#menuclose') || e.target === modal) modal.hidden = true;
+            if (e.target.closest('#morebtn')) { modal.hidden = false; document.body.classList.add('modal-open'); }
+            if (e.target.closest('#menuclose') || e.target === modal) { modal.hidden = true; document.body.classList.remove('modal-open'); }
         });
     </script>
     <script>

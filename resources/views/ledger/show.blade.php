@@ -56,7 +56,7 @@
         .muted { color: #666; }
         .smodal { position: fixed; inset: 0; background: rgba(0,0,0,0.55); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 50; }
         .smodal[hidden] { display: none; }
-        .smodal .sbox { background: #fff; border-radius: 6px; width: 100%; max-width: 380px; padding: 16px; max-height: 90vh; overflow: auto; }
+        .smodal .sbox { background: #fff; border-radius: 6px; width: 100%; max-width: 380px; padding: 16px; max-height: 90vh; overflow: auto; overscroll-behavior: contain; }
         .smodal .stitle { font-weight: 700; font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
         .smodal .sx { background: none; border: none; font-size: 24px; cursor: pointer; line-height: 1; }
         .smodal label { display: block; font-size: 13px; margin: 12px 0 4px; font-weight: 600; }

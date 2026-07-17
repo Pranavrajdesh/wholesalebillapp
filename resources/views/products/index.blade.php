@@ -114,8 +114,12 @@
                 + (item.barcode ? ' &middot; ' + esc(item.barcode) : '') + '</div>'
                 + (item.track_stock ? '<div class="muted">Stock: ' + item.stock_qty + '</div>' : '')
                 + (item.is_active ? '' : '<div class="badge-inactive">INACTIVE</div>')
-                + '<div style="margin-top:6px;"><a class="editlink" href="' + item.edit_url + '">EDIT</a> &nbsp;&middot;&nbsp; <a class="editlink" href="' + item.slabs_url + '">RATES</a></div>'
-                + '</div></div></div>';
+                + '</div></div>'
+                + '<div style="margin-top:10px; display:flex; gap:8px;">'
+                + '<a class="btn cardbtn" href="' + item.slabs_url + '" style="text-decoration:none;">RATES</a>'
+                + '<a class="btn btn-outline cardbtn" href="' + item.edit_url + '" style="text-decoration:none;">EDIT</a>'
+                + '</div>'
+                + '</div>';
         }
 
         async function fetchList(reset) {

@@ -35,7 +35,7 @@ header.app .inner { max-width: 650px; margin: 0 auto; display: flex; justify-con
 
 /* ============ forms ============ */
 label { display: block; margin: 14px 0 4px; font-size: 13px; font-weight: 600; }
-input[type=text], input[type=number], input[type=tel], select, input[type=file] { width: 100%; padding: 10px; border: 1px solid #aaa; font-size: 15px; background: #fff; border-radius: 4px; }
+input[type=text], input[type=number], input[type=tel], select, input[type=file] { width: 100%; padding: 10px; border: 1px solid #1a1a1a; font-size: 15px; background: #fff; border-radius: 4px; }
 .check { display: flex; align-items: center; gap: 8px; margin: 12px 0; }
 .inputrow { display: flex; gap: 6px; align-items: stretch; }
 .inputrow input { flex: 1; }
@@ -78,13 +78,13 @@ input[type=text], input[type=number], input[type=tel], select, input[type=file] 
 .filterbox[open] summary { margin-bottom: 8px; }
 
 /* ============ modal ============ */
-.modal { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 50; display: flex; align-items: flex-start; justify-content: center; padding: 60px 16px 16px; }
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 50; display: flex; align-items: center; justify-content: center; overscroll-behavior: contain; padding: 60px 16px 16px; }
 .modal[hidden] { display: none; }
-.modal-box { background: #fff; border-radius: 6px; width: 100%; max-width: 400px; padding: 6px 0 10px; max-height: 82vh; overflow-y: auto; display: flex; flex-direction: column; }
+.modal-box { background: #fff; border-radius: 6px; width: 100%; max-width: 400px; padding: 6px 0 10px; max-height: 82vh; overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column; }
 .modal-box > .modal-head { position: sticky; top: 0; background: #fff; z-index: 2; }
 .modal-head { display: flex; justify-content: space-between; align-items: center; font-weight: 700; padding: 10px 16px 8px; border-bottom: 1px solid #ddd; }
 .modal-head .xbtn { position: static; width: auto; height: auto; }
-.modal-link { display: block; padding: 13px 16px; text-decoration: none; font-weight: 600; border-bottom: 1px solid #eee; }
+.modal-link { display: block; padding: 13px 16px; text-decoration: none; font-weight: 600; border-bottom: 1px dashed #ccc; }
 .modal-link:last-child { border-bottom: none; }
 .modal-link:hover { background: #f4f4f4; }
 .modal-link .mi { display: inline-block; width: 26px; }
@@ -92,7 +92,7 @@ input[type=text], input[type=number], input[type=tel], select, input[type=file] 
 /* ============ misc ============ */
 .gotop { position: fixed; bottom: 20px; right: 16px; padding: 10px 14px; background: #1a1a1a; color: #fff; border: none; font-size: 13px; cursor: pointer; border-radius: 4px; z-index: 20; }
 
-.modal-group summary { display: block; padding: 13px 16px; font-weight: 700; cursor: pointer; border-bottom: 1px solid #eee; user-select: none; list-style: none; }
+.modal-group summary { display: block; padding: 13px 16px; font-weight: 700; cursor: pointer; user-select: none; list-style: none; }
 .modal-group summary .mi { display: inline-block; width: 26px; }
 .modal-group summary::-webkit-details-marker { display: none; }
 .modal-group summary::after { content: "\25BE"; float: right; color: #888; }
@@ -195,7 +195,7 @@ input[type=text], input[type=number], input[type=tel], select, input[type=file] 
 .bal-due { color: #b00020; font-weight: 700; }
 .bal-adv { color: #9a6700; font-weight: 700; }
 .bal-ok { color: #1e7e34; font-weight: 700; }
-.cardbtn { padding: 7px 16px; font-size: 12px; }
+.cardbtn { padding: 7px 16px; font-size: 12px; flex: 1 1 0; min-width: 0; text-align: center; }
 /* trial: darker card borders (remove this block to roll back) */
 .card { border-color: #1a1a1a; }
 /* hidden attribute must always win over class display rules */
@@ -237,7 +237,7 @@ table.rtable tr.tot td { font-weight: 700; background: #f7f7f7; border-top: 1.5p
 .fbox .frow:last-child, .fbox .chip-grid-4:last-child { border-bottom: none; }
 .fbox .chip-grid-4 { padding: 10px 12px; border-bottom: 1px solid #999; }
 .fbox .f { display: flex; flex-direction: column; font-size: 11px; color: #555; gap: 3px; }
-.fbox input, .fbox select { padding: 8px; border: 1px solid #aaa; border-radius: 4px; font-size: 13px; }
+.fbox input, .fbox select { padding: 8px; border: 1px solid #1a1a1a; border-radius: 4px; font-size: 13px; }
 
 /* ============ desktop table / mobile cards switch ============ */
 .rcards { display: none; }
@@ -245,3 +245,21 @@ table.rtable tr.tot td { font-weight: 700; background: #f7f7f7; border-top: 1.5p
     .rtblwrap { display: none; }
     .rcards { display: block; }
 }
+/* body lock while a modal is open */
+body.modal-open { overflow: hidden; }
+/* menu modal: roomier on desktop */
+@media (min-width: 641px) {
+    #menumodal .modal-box { max-width: 560px; max-height: 88vh; }
+}
+/* menu modal: dark header + full-screen on mobile */
+#menumodal .modal-box { padding-top: 0; }
+#menumodal .modal-head { background: #1a1a1a; color: #fff; border-bottom: none; padding: 14px 16px; }
+#menumodal .modal-head .xbtn { color: #fff; font-size: 26px; }
+@media (max-width: 640px) {
+    #menumodal { padding: 0; align-items: stretch; }
+    #menumodal .modal-box { max-width: none; width: 100%; max-height: none; height: 100%; border-radius: 0; }
+}
+/* menu separators: solid between groups, dashed inside */
+.modal-group { border-bottom: 1px solid #999; }
+.modal-group:last-of-type { border-bottom: none; }
+.modal-group[open] summary { border-bottom: 1px dashed #ccc; }
