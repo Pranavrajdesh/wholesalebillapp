@@ -1,16 +1,24 @@
 @extends('layouts.app')
 
-@section('title', 'Retailer Orders')
+@section('title', 'Partner Orders')
 
 @section('content')
-    <h2>Retailer Orders</h2>
+    <style>
+        .ochip { display: inline-block; padding: 2px 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; border: 1px solid #999; border-radius: 999px; }
+        .ohead { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+        .obtns { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+        .vgap { margin-top: 12px; }
+        .vgap-sm { margin-top: 8px; }
+    </style>
+
+    <h2>Partner Orders</h2>
     <hr class="rule">
 
-    <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; margin-bottom:12px;" id="statusfilter">
-        <button type="button" class="btn btn-outline fltr" data-status="all" style="padding:9px 4px; font-size:11.5px;">ALL</button>
-        <button type="button" class="btn fltr active" data-status="pending" style="padding:9px 4px; font-size:11.5px;">PENDING</button>
-        <button type="button" class="btn btn-outline fltr" data-status="invoiced" style="padding:9px 4px; font-size:11.5px;">INVOICED</button>
-        <button type="button" class="btn btn-outline fltr" data-status="cancelled" style="padding:9px 4px; font-size:11.5px;">CANCELLED</button>
+    <div class="chip-grid-4" style="margin-bottom:12px;" id="statusfilter">
+        <button type="button" class="btn btn-outline fltr" data-status="all">ALL</button>
+        <button type="button" class="btn fltr active" data-status="pending">PENDING</button>
+        <button type="button" class="btn btn-outline fltr" data-status="invoiced">INVOICED</button>
+        <button type="button" class="btn btn-outline fltr" data-status="cancelled">CANCELLED</button>
     </div>
 
     <p id="count" class="count"></p>
@@ -55,7 +63,25 @@
 
         function chip(s) {
             const cls = s === 'invoiced' ? 'status' : (s === 'cancelled' ? 'badge-inactive' : '');
-            return '<span class="' + cls + '" style="display:inline-block; padding:2px 10px; font-size:11px; font-weight:700; letter-spacing:0.5px; border:1px solid #999; border-radius:999px;">' + s.toUpperCase() + '</span>';
+            return '<span class="ochip ' + cls + '">' + s.toUpperCase() + '</span>';
+        }
+
+        function uiConfirm(message, yesLabel) {
+            return new Promise(resolve => {
+                const ov = document.createElement('div');
+                ov.style.cssText = 'position:fixed; inset:0; background:rgba(0,0,0,0.55); display:flex; align-items:center; justify-content:center; padding:16px; z-index:60;';
+                ov.innerHTML = '<div style="background:#fff; border-radius:6px; width:100%; max-width:340px; padding:16px;">'
+                    + '<div style="font-weight:700; font-size:15px; color:#1a1a1a;">' + message + '</div>'
+                    + '<div style="display:flex; gap:8px; margin-top:14px;">'
+                    + '<button type="button" data-a="no" style="flex:1; padding:11px; background:#fff; color:#1a1a1a; border:1px solid #1a1a1a; border-radius:4px; font-size:13px; cursor:pointer;">KEEP</button>'
+                    + '<button type="button" data-a="yes" style="flex:1; padding:11px; background:#b00020; color:#fff; border:none; border-radius:4px; font-size:13px; cursor:pointer;">' + (yesLabel || 'YES') + '</button>'
+                    + '</div></div>';
+                ov.addEventListener('click', e => {
+                    const a = e.target.dataset && e.target.dataset.a;
+                    if (a || e.target === ov) { ov.remove(); resolve(a === 'yes'); }
+                });
+                document.body.appendChild(ov);
+            });
         }
 
         async function loadList() {
@@ -69,15 +95,15 @@
             $('oempty').hidden = d.items.length > 0;
             $('olist').innerHTML = d.items.map(o =>
                 '<div class="card" style="margin-bottom:10px;" data-id="' + o.id + '">'
-                + '<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">'
+                + '<div class="ohead">'
                 + '<div>'
                 + '<div style="font-weight:700;">Order #' + o.id + ' &mdash; ' + B.esc(o.firm_name) + '</div>'
                 + '<div style="color:#444; font-size:13px;">' + B.esc(o.placed_at) + ' &middot; ' + o.line_count + ' item' + (o.line_count === 1 ? '' : 's') + '</div>'
-                + (o.note ? '<div style="margin-top:6px; font-size:13.5px; font-weight:600; color:#1a1a1a; padding:8px 10px; border:1px solid #999; border-left:4px solid #1a1a1a; background:#f7f7f7; border-radius:4px;">NOTE: ' + B.esc(o.note) + '</div>' : '')
+                + (o.note ? '<div class="callout" style="margin-top:6px;">NOTE: ' + B.esc(o.note) + '</div>' : '')
                 + '</div>'
                 + chip(o.status)
                 + '</div>'
-                + '<div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">'
+                + '<div class="obtns">'
                 + '<button type="button" class="btn o-view">REVIEW</button>'
                 + (o.invoice_url ? '<a class="btn btn-outline" href="' + o.invoice_url + '">OPEN INVOICE</a>' : '')
                 + '</div>'
@@ -132,11 +158,11 @@
                     unpriced++;
                     priceCell = '<span class="muted">No standing rate &mdash; set in cart</span>';
                 }
-                linesHtml += '<div style="border:1px solid #1a1a1a; border-radius:4px; padding:8px 10px; margin:8px 0; font-size:13.5px;">'
-                    + '<div style="display:flex; justify-content:space-between; gap:8px;">'
-                    + '<span style="font-weight:700;">' + B.esc(l.name) + '</span><b style="white-space:nowrap;">&times; ' + l.qty + '</b>'
+                linesHtml += '<div class="dcard" style="margin:8px 0; font-size:13.5px;">'
+                    + '<div class="dcard-row">'
+                    + '<span style="font-weight:700;">' + B.esc(l.name) + '</span><b class="moneyline">&times; ' + l.qty + '</b>'
                     + '</div>'
-                    + '<div style="font-size:12.5px; margin-top:6px; padding-top:6px; border-top:1px dashed #999; color:#1a1a1a; font-weight:600;">' + priceCell + '</div>'
+                    + '<div class="dcard-part" style="font-size:12.5px; font-weight:600;">' + priceCell + '</div>'
                     + '</div>';
             });
 
@@ -151,10 +177,10 @@
                 + '</div>';
 
             if (o.status === 'pending') {
-                html += '<div style="margin-top:12px;"><button type="button" class="btn" id="loadbill">LOAD INTO CART &amp; BILL</button></div>'
-                    + '<div style="margin-top:8px;"><button type="button" class="btn btn-outline" id="ocancel">CANCEL ORDER</button></div>';
+                html += '<div class="vgap"><button type="button" class="btn" id="loadbill">LOAD INTO CART &amp; BILL</button></div>'
+                    + '<div class="vgap-sm"><button type="button" class="btn btn-outline" id="ocancel">CANCEL ORDER</button></div>';
             } else if (o.invoice_url) {
-                html += '<div style="margin-top:12px;"><a class="btn" href="' + o.invoice_url + '">OPEN INVOICE</a></div>';
+                html += '<div class="vgap"><a class="btn" href="' + o.invoice_url + '">OPEN INVOICE</a></div>';
             }
 
             $('odetail').innerHTML = html;
@@ -209,8 +235,8 @@
                     + '<div class="muted">What should happen to it before loading this order?</div>'
                     + '</div>'
                     + '<button type="button" class="btn" id="lm-hold">HOLD CURRENT &amp; LOAD ORDER</button>'
-                    + '<div style="margin-top:8px;"><button type="button" class="btn btn-outline" id="lm-discard">DISCARD CURRENT &amp; LOAD ORDER</button></div>'
-                    + '<div style="margin-top:8px;"><button type="button" class="btn btn-outline" id="lm-cancel">CANCEL</button></div>';
+                    + '<div class="vgap-sm"><button type="button" class="btn btn-outline" id="lm-discard">DISCARD CURRENT &amp; LOAD ORDER</button></div>'
+                    + '<div class="vgap-sm"><button type="button" class="btn btn-outline" id="lm-cancel">CANCEL</button></div>';
                 $('loadmodal').hidden = false;
 
                 $('lm-hold').addEventListener('click', async () => {
@@ -233,7 +259,7 @@
         }
 
         async function cancelOrder() {
-            if (!confirm('Cancel order #' + current.id + '?')) return;
+            if (!(await uiConfirm('Cancel order #' + current.id + '?', 'CANCEL ORDER'))) return;
             await B.api(showUrlBase + '/' + current.id + '/cancel', 'POST');
             $('odetailwrap').hidden = true;
             loadList();
