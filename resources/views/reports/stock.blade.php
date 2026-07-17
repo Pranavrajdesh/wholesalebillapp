@@ -10,11 +10,7 @@
         .stk-neg { color: #b00020; font-weight: 700; }
         .stk-low { color: #9a6700; font-weight: 700; }
         .brandrow td { font-weight: 700; background: #f2f2f2; }
-        .rcards { display: none; }
-        @media (max-width: 640px) {
-            .rtblwrap { display: none; }
-            .rcards { display: block; }
-        }
+
     </style>
 
     @include('reports._topbar')

@@ -8,11 +8,7 @@
         .agenote { margin: 10px 0 12px; }
         .old1 { color: #9a6700; font-weight: 700; }
         .old2 { color: #b00020; font-weight: 700; }
-        .rcards { display: none; }
-        @media (max-width: 640px) {
-            .rtblwrap { display: none; }
-            .rcards { display: block; }
-        }
+
     </style>
 
     @include('reports._topbar')

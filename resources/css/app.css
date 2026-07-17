@@ -231,3 +231,17 @@ table.rtable tr.tot td { font-weight: 700; background: #f7f7f7; border-top: 1.5p
     .ractions { flex-direction: column; align-items: stretch; }
     .ractions-btns, .ractions-btns.three { grid-template-columns: repeat(2, 1fr); }
 }
+/* ============ filter box (reports & list pages) ============ */
+.fbox { border: 1.5px solid #1a1a1a; border-radius: 4px; margin: 10px 0 14px; background: #fff; }
+.fbox .frow { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end; padding: 10px 12px; border-bottom: 1px solid #999; }
+.fbox .frow:last-child, .fbox .chip-grid-4:last-child { border-bottom: none; }
+.fbox .chip-grid-4 { padding: 10px 12px; border-bottom: 1px solid #999; }
+.fbox .f { display: flex; flex-direction: column; font-size: 11px; color: #555; gap: 3px; }
+.fbox input, .fbox select { padding: 8px; border: 1px solid #aaa; border-radius: 4px; font-size: 13px; }
+
+/* ============ desktop table / mobile cards switch ============ */
+.rcards { display: none; }
+@media (max-width: 640px) {
+    .rtblwrap { display: none; }
+    .rcards { display: block; }
+}

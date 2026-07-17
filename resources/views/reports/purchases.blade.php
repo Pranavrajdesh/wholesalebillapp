@@ -5,17 +5,9 @@
 @section('content')
     <style>
         main.container { max-width: 800px; }
-        .fbox { border: 1.5px solid #1a1a1a; border-radius: 4px; margin: 10px 0 14px; }
-        .fbox .frow { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end; padding: 10px 12px; border-bottom: 1px solid #999; }
-        .fbox .frow.last { border-bottom: none; }
-        .fbox .f { display: flex; flex-direction: column; font-size: 11px; color: #555; gap: 3px; }
-        .fbox input { padding: 8px; border: 1px solid #aaa; border-radius: 4px; font-size: 13px; }
+
         .sect { margin-top: 16px; }
-        .rcards { display: none; }
-        @media (max-width: 640px) {
-            .rtblwrap { display: none; }
-            .rcards { display: block; }
-        }
+
     </style>
 
     @include('reports._topbar')
