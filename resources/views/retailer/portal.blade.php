@@ -17,6 +17,7 @@
         .ptabs button { flex: 1; padding: 12px; background: none; border: none; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; cursor: pointer; color: #666; border-bottom: 3px solid transparent; }
         .ptabs button.active { color: #1a1a1a; border-bottom-color: #1a1a1a; }
         .pwrap { max-width: 650px; margin: 0 auto; padding: 16px; }
+        .ptitle { font-size: 20px; margin: 6px 0 10px; }
         .loginbox { max-width: 400px; margin: 40px auto; background: #fff; border: 1px solid #ccc; border-radius: 6px; padding: 22px; }
         .loginbox h2 { margin: 0 0 4px; }
         .ratenote { font-size: 14px; font-weight: 600; color: #1a1a1a; margin: 10px 0 2px; padding: 10px 12px; border: 1px solid #999; border-left: 4px solid #1a1a1a; background: #f7f7f7; border-radius: 4px; }
@@ -24,7 +25,14 @@
         .statuschip { display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; border: 1px solid #999; color: #444; }
         .statuschip.invoiced { background: #e6f4ea; border-color: #1e7e34; color: #1e7e34; }
         .statuschip.cancelled { background: #fdecea; border-color: #b00020; color: #b00020; }
-        .orderline { border-bottom: 1px dashed #ccc; padding: 6px 0; font-size: 13.5px; display: flex; justify-content: space-between; gap: 8px; }
+        .vgap { margin-top: 12px; }
+        .vgap-sm { margin-top: 8px; }
+        .installbar { background: #fff; border-bottom: 1px solid #ccc; }
+        .installbar .inner { max-width: 650px; margin: 0 auto; padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+        .installbar .msg { font-size: 12.5px; font-weight: 600; color: #1a1a1a; }
+        .installbar .btns { display: flex; gap: 6px; }
+        .installbar .go { padding: 8px 14px; background: #1a1a1a; color: #fff; border: none; border-radius: 4px; font-size: 12px; cursor: pointer; }
+        .installbar .x { padding: 8px 10px; background: none; border: 1px solid #999; border-radius: 4px; font-size: 12px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -38,7 +46,7 @@
                 <label for="l_mobile">Registered mobile number</label>
                 <input type="tel" id="l_mobile" inputmode="numeric" maxlength="10" placeholder="10-digit mobile">
                 <div class="error" id="l_err1" style="display:none;"></div>
-                <div style="margin-top:12px;">
+                <div class="vgap">
                     <button type="button" class="btn" id="l_send">SEND OTP</button>
                     <p style="font-size:13px; color:#444; margin:12px 0 0;">Wholesaler? <a href="{{ route('login') }}" style="color:#1a1a1a; font-weight:600;">Login here &rarr;</a></p>
                 </div>
@@ -50,10 +58,10 @@
                 <label for="l_code">Enter OTP</label>
                 <input type="tel" id="l_code" inputmode="numeric" maxlength="6" placeholder="6-digit code">
                 <div class="error" id="l_err2" style="display:none;"></div>
-                <div style="margin-top:12px;">
+                <div class="vgap">
                     <button type="button" class="btn" id="l_verify">VERIFY &amp; LOGIN</button>
                 </div>
-                <div style="margin-top:8px;">
+                <div class="vgap-sm">
                     <button type="button" class="btn btn-outline" id="l_back">&larr; CHANGE NUMBER</button>
                 </div>
             </div>
@@ -75,25 +83,17 @@
             <button type="button" data-tab="orders">MY ORDERS</button>
         </div>
 
+        <div id="installbar" class="installbar" hidden>
+            <div class="inner">
+                <span class="msg">Add this shop to your home screen</span>
+                <span class="btns">
+                    <button type="button" id="pinstall" class="go">INSTALL</button>
+                    <button type="button" id="pinstall-x" class="x">&times;</button>
+                </span>
+            </div>
+        </div>
+
         {{-- ---- catalogue tab ---- --}}
-        <div id="installbar" hidden style="background:#fff; border-bottom:1px solid #ccc;">
-            <div style="max-width:650px; margin:0 auto; padding:10px 16px; display:flex; justify-content:space-between; align-items:center; gap:10px;">
-                <span style="font-size:12.5px; font-weight:600; color:#1a1a1a;">Add this shop to your home screen</span>
-                <span style="display:flex; gap:6px;">
-                    <button type="button" id="pinstall" style="padding:8px 14px; background:#1a1a1a; color:#fff; border:none; border-radius:4px; font-size:12px; cursor:pointer;">INSTALL</button>
-                    <button type="button" id="pinstall-x" style="padding:8px 10px; background:none; border:1px solid #999; border-radius:4px; font-size:12px; cursor:pointer;">&times;</button>
-                </span>
-            </div>
-        </div>
-        <div id="installbar" hidden style="background:#fff; border-bottom:1px solid #ccc;">
-            <div style="max-width:650px; margin:0 auto; padding:10px 16px; display:flex; justify-content:space-between; align-items:center; gap:10px;">
-                <span style="font-size:12.5px; font-weight:600; color:#1a1a1a;">Add this shop to your home screen</span>
-                <span style="display:flex; gap:6px;">
-                    <button type="button" id="pinstall" style="padding:8px 14px; background:#1a1a1a; color:#fff; border:none; border-radius:4px; font-size:12px; cursor:pointer;">INSTALL</button>
-                    <button type="button" id="pinstall-x" style="padding:8px 10px; background:none; border:1px solid #999; border-radius:4px; font-size:12px; cursor:pointer;">&times;</button>
-                </span>
-            </div>
-        </div>
         <div id="tab-cat" class="pwrap">
             <div class="searchwrap">
                 <input type="text" id="search" placeholder="Search products" autocomplete="off">
@@ -120,7 +120,7 @@
 
         {{-- ---- review screen ---- --}}
         <div id="tab-review" class="pwrap hiddenv">
-            <h2 style="font-size:20px; margin:6px 0 10px;">Your Order</h2>
+            <h2 class="ptitle">Your Order</h2>
             <hr class="rule">
             <div id="rlines"></div>
             <p id="rempty" class="muted" hidden>Nothing in your order yet. Add items from the catalogue.</p>
@@ -133,14 +133,14 @@
                     <button type="button" class="btn" id="placeorder">PLACE ORDER</button>
                 </div>
             </div>
-            <div style="margin-top:8px;">
+            <div class="vgap-sm">
                 <button type="button" class="btn btn-outline" id="backtocat">&larr; CONTINUE ADDING</button>
             </div>
         </div>
 
         {{-- ---- orders tab ---- --}}
         <div id="tab-orders" class="pwrap hiddenv">
-            <h2 style="font-size:20px; margin:6px 0 10px;">My Orders</h2>
+            <h2 class="ptitle">My Orders</h2>
             <hr class="rule">
             <div id="olist"></div>
             <p id="oempty" class="muted" hidden>No orders yet.</p>
@@ -149,7 +149,7 @@
         {{-- ---- order detail ---- --}}
         <div id="tab-odetail" class="pwrap hiddenv">
             <div id="odetail"></div>
-            <div style="margin-top:8px;">
+            <div class="vgap-sm">
                 <button type="button" class="btn btn-outline" id="backtoorders">&larr; BACK TO ORDERS</button>
             </div>
         </div>
@@ -423,7 +423,7 @@
                     html += '<div class="bghead">' + B.esc(it.brand) + '</div>';
                 }
                 html += '<div class="card" style="margin-bottom:8px;" data-id="' + it.product_id + '">'
-                    + '<div style="display:flex; justify-content:space-between; gap:8px; align-items:flex-start;">'
+                    + '<div class="dcard-row" style="align-items:flex-start;">'
                     + '<div>'
                     + '<div style="font-weight:600;">' + B.esc(it.name) + '</div>'
                     + '<div class="muted">MRP ' + B.money(it.mrp) + '</div>'
@@ -505,7 +505,7 @@
             $('oempty').hidden = d.items.length > 0;
             $('olist').innerHTML = d.items.map(o =>
                 '<div class="card" style="margin-bottom:10px;" data-id="' + o.id + '">'
-                + '<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">'
+                + '<div class="dcard-row" style="align-items:flex-start;">'
                 + '<div>'
                 + '<div style="font-weight:700;">Order #' + o.id + '</div>'
                 + '<div class="muted">' + B.esc(o.placed_at) + ' &middot; ' + o.line_count + ' item' + (o.line_count === 1 ? '' : 's') + '</div>'
@@ -547,7 +547,7 @@
         async function openOrder(id) {
             const d = await api('/orders/' + id);
             const o = d.order;
-            let html = '<h2 style="font-size:20px; margin:6px 0 10px;">Order #' + o.id + '</h2><hr class="rule">'
+            let html = '<h2 class="ptitle">Order #' + o.id + '</h2><hr class="rule">'
                 + '<div style="margin:8px 0;">' + chip(o.status) + ' <span class="muted">' + B.esc(o.placed_at) + '</span></div>';
 
             let curBrand = null;
@@ -556,12 +556,12 @@
                     curBrand = l.brand;
                     html += '<div class="bghead">' + B.esc(l.brand) + '</div>';
                 }
-                html += '<div style="border:1px solid #1a1a1a; border-radius:4px; padding:8px 10px; margin:8px 0; font-size:13.5px;">'
-                    + '<div style="display:flex; justify-content:space-between; gap:8px;">'
+                html += '<div class="dcard" style="margin:8px 0; font-size:13.5px;">'
+                    + '<div class="dcard-row">'
                     + '<span style="font-weight:700;">' + B.esc(l.name) + '</span>'
-                    + '<b style="white-space:nowrap;">&times; ' + l.qty + '</b>'
+                    + '<b class="moneyline">&times; ' + l.qty + '</b>'
                     + '</div>'
-                    + '<div style="margin-top:6px; padding-top:6px; border-top:1px dashed #999; font-size:12.5px; font-weight:600; color:#1a1a1a;">MRP ' + B.money(l.mrp) + '</div>'
+                    + '<div class="dcard-part" style="font-size:12.5px; font-weight:600;">MRP ' + B.money(l.mrp) + '</div>'
                     + '</div>';
             });
 
@@ -570,11 +570,11 @@
             }
 
             if (o.invoice_url) {
-                html += '<div style="margin-top:12px;"><a class="btn" href="' + o.invoice_url + '" target="_blank">VIEW INVOICE</a></div>';
+                html += '<div class="vgap"><a class="btn" href="' + o.invoice_url + '" target="_blank">VIEW INVOICE</a></div>';
             }
 
             if (o.status === 'pending') {
-                html += '<div style="margin-top:12px;"><button type="button" class="btn btn-outline" id="o-cancel" data-id="' + o.id + '">CANCEL ORDER</button></div>';
+                html += '<div class="vgap"><button type="button" class="btn btn-outline" id="o-cancel" data-id="' + o.id + '">CANCEL ORDER</button></div>';
             }
 
             $('odetail').innerHTML = html;
@@ -619,21 +619,6 @@
             });
         });
         window.addEventListener('appinstalled', () => { document.getElementById('installbar').hidden = true; });
-        let deferredInstall = null;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredInstall = e;
-            document.getElementById('installbar').hidden = false;
-        });
-        document.addEventListener('click', (e) => {
-            if (e.target.closest('#pinstall-x')) { document.getElementById('installbar').hidden = true; return; }
-            if (!e.target.closest('#pinstall') || !deferredInstall) return;
-            deferredInstall.prompt();
-            deferredInstall.userChoice.then(() => {
-                deferredInstall = null;
-                document.getElementById('installbar').hidden = true;
-            });
-        });
-        window.addEventListener('appinstalled', () => { document.getElementById('installbar').hidden = true; });
-    </script></body>
+    </script>
+</body>
 </html>
