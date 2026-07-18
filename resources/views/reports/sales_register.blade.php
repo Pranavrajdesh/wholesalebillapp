@@ -37,6 +37,12 @@
                 <a class="btn {{ ($fyActive ?? '') === 'last' ? '' : 'btn-outline' }}" href="{{ route('reports.sales_register') }}?fy=last{{ $pq }}">LAST FY</a>
                 <a class="btn {{ ($fyActive ?? '') === 'all' ? '' : 'btn-outline' }}" href="{{ route('reports.sales_register') }}">ALL</a>
             </div>
+            <div class="chip-grid-4">
+                <a class="btn {{ ($fyActive ?? '') === 'q1' ? '' : 'btn-outline' }}" href="{{ route('reports.sales_register') }}?fy=q1{{ $pq }}">Q1 APR&ndash;JUN</a>
+                <a class="btn {{ ($fyActive ?? '') === 'q2' ? '' : 'btn-outline' }}" href="{{ route('reports.sales_register') }}?fy=q2{{ $pq }}">Q2 JUL&ndash;SEP</a>
+                <a class="btn {{ ($fyActive ?? '') === 'q3' ? '' : 'btn-outline' }}" href="{{ route('reports.sales_register') }}?fy=q3{{ $pq }}">Q3 OCT&ndash;DEC</a>
+                <a class="btn {{ ($fyActive ?? '') === 'q4' ? '' : 'btn-outline' }}" href="{{ route('reports.sales_register') }}?fy=q4{{ $pq }}">Q4 JAN&ndash;MAR</a>
+            </div>
         </div>
     </form>
 
@@ -47,6 +53,18 @@
         'clear_url' => route('reports.sales_register'),
         'filters_active' => (bool) ($from || $to || $partnerId),
     ])
+
+    @php
+        $compRate = (float) (\App\Models\Setting::getAll()['composition_rate'] ?? 0);
+        $isQuarter = in_array($fyActive ?? '', ['q1', 'q2', 'q3', 'q4'], true);
+    @endphp
+    @if ($compRate > 0 && $isQuarter && $totals['total'] > 0)
+        <p class="callout" style="margin:0 0 10px;">
+            Quarter turnover <b>Rs {{ inr($totals['total'], 2) }}</b> &middot;
+            Composition tax @ {{ rtrim(rtrim(number_format($compRate, 2), '0'), '.') }}% =
+            <b>Rs {{ inr($totals['total'] * $compRate / 100, 2) }}</b> (estimate for CMP-08)
+        </p>
+    @endif
 
     <div class="rtblwrap" style="overflow-x:auto;">
         <table class="rtable">

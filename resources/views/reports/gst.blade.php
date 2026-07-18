@@ -29,6 +29,12 @@
                 <a class="btn {{ ($fyActive ?? '') === 'last' ? '' : 'btn-outline' }}" href="{{ route('reports.gst') }}?fy=last">LAST FY</a>
                 <a class="btn {{ ($fyActive ?? '') === 'all' ? '' : 'btn-outline' }}" href="{{ route('reports.gst') }}">ALL</a>
             </div>
+            <div class="chip-grid-4">
+                <a class="btn {{ ($fyActive ?? '') === 'q1' ? '' : 'btn-outline' }}" href="{{ route('reports.gst') }}?fy=q1">Q1 APR&ndash;JUN</a>
+                <a class="btn {{ ($fyActive ?? '') === 'q2' ? '' : 'btn-outline' }}" href="{{ route('reports.gst') }}?fy=q2">Q2 JUL&ndash;SEP</a>
+                <a class="btn {{ ($fyActive ?? '') === 'q3' ? '' : 'btn-outline' }}" href="{{ route('reports.gst') }}?fy=q3">Q3 OCT&ndash;DEC</a>
+                <a class="btn {{ ($fyActive ?? '') === 'q4' ? '' : 'btn-outline' }}" href="{{ route('reports.gst') }}?fy=q4">Q4 JAN&ndash;MAR</a>
+            </div>
         </div>
     </form>
 

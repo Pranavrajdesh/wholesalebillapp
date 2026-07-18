@@ -411,6 +411,10 @@ class ReportController extends Controller
             if ($preset === 'this') return [$fyStart . '-04-01', null, 'this'];
             if ($preset === 'last') return [($fyStart - 1) . '-04-01', $fyStart . '-03-31', 'last'];
             if ($preset === 'thismonth') return [$now->format('Y-m-01'), null, 'thismonth'];
+            if ($preset === 'q1') return [$fyStart . '-04-01', $fyStart . '-06-30', 'q1'];
+            if ($preset === 'q2') return [$fyStart . '-07-01', $fyStart . '-09-30', 'q2'];
+            if ($preset === 'q3') return [$fyStart . '-10-01', $fyStart . '-12-31', 'q3'];
+            if ($preset === 'q4') return [($fyStart + 1) . '-01-01', ($fyStart + 1) . '-03-31', 'q4'];
         }
         $from = $request->query('from') ?: null;
         $to = $request->query('to') ?: null;

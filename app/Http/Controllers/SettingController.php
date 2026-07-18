@@ -28,6 +28,7 @@ class SettingController extends Controller
             'print_payment' => ['required', 'in:0,1'],
             'print_projection' => ['required', 'in:0,1'],
             'allow_negative_stock' => ['required', 'in:0,1'],
+            'composition_rate' => ['nullable', 'numeric', 'min:0', 'max:10'],
         ]);
 
         Setting::setMany($data);

@@ -111,6 +111,12 @@
                 <input type="checkbox" id="allow_negative_stock" name="allow_negative_stock" value="1" @checked(old('allow_negative_stock', $s['allow_negative_stock'] ?? '1') == '1')>
                 <label for="allow_negative_stock" style="margin:0;">Allow negative stock (ticked: bills always save, stock can go below zero &mdash; unticked: bills exceeding available stock are blocked)</label>
             </div>
+
+            <label for="composition_rate" style="margin-top:12px;">Composition tax rate (%)</label>
+            <input type="number" id="composition_rate" name="composition_rate" step="0.01" min="0" max="10"
+                value="{{ old('composition_rate', $s['composition_rate'] ?? '') }}"
+                placeholder="Leave empty if not under GST composition scheme">
+            <p style="font-size:12.5px; font-weight:600; color:#1a1a1a; margin:6px 0 0;">If set (e.g. 1 for traders), quarterly sales reports show the CMP-08 tax estimate.</p>
         </div>
 
         <button class="btn" type="submit">SAVE SETTINGS</button>
