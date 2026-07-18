@@ -81,6 +81,7 @@
                 <details class="modal-group" open>
                     <summary><span class="mi">&#9881;</span>Manage App</summary>
                     <a class="modal-link sub" href="{{ route('dashboard') }}"><span class="mi">&#9632;</span>Dashboard</a>
+                    <a class="modal-link sub" href="{{ route('activity.index') }}"><span class="mi">&#128200;</span>Activity</a>
                     <a class="modal-link sub" href="{{ route('settings.edit') }}"><span class="mi">&#9998;</span>Settings</a>
                     <button type="button" id="installbtn" class="modal-link sub" hidden style="width:100%; text-align:left; background:none; border:none; cursor:pointer; font:inherit;"><span class="mi">&#8681;</span>Install App</button>
                </details>

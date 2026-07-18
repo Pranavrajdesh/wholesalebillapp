@@ -144,6 +144,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/partners/{partner}/ledger', [PaymentController::class, 'ledger'])->name('ledger.show');
     Route::get('/partners/{partner}/ledger/data', [PaymentController::class, 'data'])->name('ledger.data');
     Route::get('/partners/{partner}/ledger/pdf', [PaymentController::class, 'pdf'])->name('ledger.pdf');
+    Route::get('/activity', [\App\Http\Controllers\ActivityController::class, 'index'])->name('activity.index');
+    Route::get('/activity', [\App\Http\Controllers\ActivityController::class, 'index'])->name('activity.index');
     Route::get('/settings', [SettingController::class, 'edit'])->name('settings.edit');
     Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
     Route::get('/billing/checkout', [BillingController::class, 'checkout'])->name('billing.checkout');
@@ -184,6 +186,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/partners/{partner}/ledger', [PaymentController::class, 'ledger'])->name('ledger.show');
     Route::get('/partners/{partner}/ledger/data', [PaymentController::class, 'data'])->name('ledger.data');
     Route::get('/partners/{partner}/ledger/pdf', [PaymentController::class, 'pdf'])->name('ledger.pdf');
+    Route::get('/activity', [\App\Http\Controllers\ActivityController::class, 'index'])->name('activity.index');
+    Route::get('/activity', [\App\Http\Controllers\ActivityController::class, 'index'])->name('activity.index');
     Route::get('/settings', [SettingController::class, 'edit'])->name('settings.edit');
     Route::put('/settings', [SettingController::class, 'update'])->name('settings.update');
 
